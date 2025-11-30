@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Signup | CineVerse AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="auth-body">
+
+<!-- 3D ANIMATED APP TITLE -->
+<h1 class="cine-title">🌌 CINEVERSE AI</h1>
+
+<div class="auth-card">
+    <h2>Create Account 🚀</h2>
+    <p class="subtitle">Join CineVerse AI and unlock personalized recommendations</p>
+
+    {% if error %}
+        <p style="color:#f87171; font-size:13px; margin-bottom:10px;">{{ error }}</p>
+    {% endif %}
+
+    <!-- FIXED: added action="/signup" -->
+    <form method="POST" action="/signup">
+        <div class="input-group">
+            <label>Name</label>
+            <input type="text" name="name" placeholder="John Doe" required>
+        </div>
+
+        <div class="input-group">
+            <label>Phone Number</label>
+            <input type="text" name="phone" placeholder="9876543210" required>
+        </div>
+
+        <div class="input-group">
+            <label>Password</label>
+            <input type="password" name="password" placeholder="Enter secure password" required>
+        </div>
+
+        <button class="btn-primary">Create Account</button>
+
+        <p class="auth-footer">
+            Already have an account?
+            <a href="/login">Login</a>
+        </p>
+    </form>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home | CineVerse AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<!-- ANIMATED TITLE -->
+<h1 class="cine-title">🌌 CINEVERSE AI</h1>
+
+<!-- NAVBAR -->
+<div class="nav-bar">
+    <div class="nav-left">🎬 Home</div>
+    <div class="nav-right">
+        <span style="color:#22d3ee; cursor:default;">Home</span>
+        <a href="/logout">Logout</a>
+    </div>
+</div>
+
+<h1 class="title">👋 Welcome {{ user_name }}</h1>
+
+<!-- SEARCH BAR -->
+<h2 class="section-title">Search Movies</h2>
+<div style="padding: 0 40px;">
+    <input id="searchBox" type="text" placeholder="Search movies..."
+           style="width:100%; padding:12px; border-radius:12px; border:none; background:#0f172a; color:#fff; outline:none;">
+</div>
+
+<div id="search-results" class="movie-container"></div>
+
+<!-- GENRE FILTER -->
+<h2 class="section-title">Browse by Genre</h2>
+<div style="padding: 0 40px;">
+    <select id="genreSelect" style="padding:10px; border-radius:12px; width:250px; background:#0f172a; color:#fff; border:none;">
+        <option value="">-- Select Genre --</option>
+        <option>Action</option>
+        <option>Comedy</option>
+        <option>Drama</option>
+        <option>Adventure</option>
+        <option>Animation</option>
+        <option>Sci-Fi</option>
+        <option>Romance</option>
+        <option>Horror</option>
+    </select>
+</div>
+
+<div id="genre-results" class="movie-container"></div>
+
+
+<!-- TOP RATED MOVIES -->
+<h2 class="section-title">Top Rated Movies</h2>
+<div class="movie-container">
+    {% for m in movies %}
+    <div class="movie-card" onclick="location.href='/movie/{{ m.id }}'">
+        <img src="{{ m.poster_path }}" class="poster">
+        <p class="movie-name">{{ m.title }}</p>
+        <p class="rating">⭐ {{ m.imdb_rating }}</p>
+    </div>
+    {% endfor %}
+</div>
+
+
+<!-- RECOMMENDED MOVIES -->
+<h2 class="section-title">Recommended For You</h2>
+<div id="rec-box" class="movie-container"></div>
+
+
+<!-- WATCHLIST SECTION -->
+<h2 class="section-title">Your Watchlist</h2>
+<div id="watch-box" class="movie-container"></div>
+
+
+<script>
+/* ================= SEARCH ================= */
+document.getElementById("searchBox").onkeyup = async (e) => {
+    const q = e.target.value.trim();
+    const box = document.getElementById("search-results");
+    box.innerHTML = "";
+
+    if (q === "") return;
+
+    const res = await fetch(`/search?q=${q}`);
+    const data = await res.json();
+
+    data.forEach(m => {
+        box.innerHTML += `
+        <div class="movie-card" onclick="location.href='/movie/${m.id}'">
+            <img src="${m.poster_path}" class="poster">
+            <p class="movie-name">${m.title}</p>
+            <p class="rating">⭐ ${m.imdb_rating}</p>
+        </div>`;
+    });
+};
+
+
+/* ================= GENRE FILTER ================= */
+document.getElementById("genreSelect").onchange = async (e) => {
+    const g = e.target.value;
+    const box = document.getElementById("genre-results");
+    box.innerHTML = "";
+
+    if (!g) return;
+
+    const res = await fetch(`/genre/${g}`);
+    const data = await res.json();
+
+    data.forEach(m => {
+        box.innerHTML += `
+        <div class="movie-card" onclick="location.href='/movie/${m.id}'">
+            <img src="${m.poster_path}" class="poster">
+            <p class="movie-name">${m.title}</p>
+            <p class="rating">⭐ ${m.imdb_rating}</p>
+        </div>`;
+    });
+};
+
+
+/* ================= WATCHLIST ================= */
+async function loadWatchlist() {
+    const res = await fetch("/watchlist");
+    const data = await res.json();
+    const box = document.getElementById("watch-box");
+
+    data.forEach(m => {
+        box.innerHTML += `
+        <div class="movie-card" onclick="location.href='/movie/${m.id}'">
+            <img src="${m.poster_path}" class="poster">
+            <p class="movie-name">${m.title}</p>
+        </div>`;
+    });
+}
+loadWatchlist();
+
+
+/* ================= USER RECOMMENDATIONS ================= */
+async function loadRecs() {
+    const res = await fetch("/recommend/user");
+    const data = await res.json();
+    const box = document.getElementById("rec-box");
+
+    data.forEach(m => {
+        box.innerHTML += `
+        <div class="movie-card" onclick="location.href='/movie/${m.id}'">
+            <img src="${m.poster_path}" class="poster">
+            <p class="movie-name">${m.title}</p>
+            <p class="rating">⭐ ${m.imdb_rating}</p>
+        </div>`;
+    });
+}
+loadRecs();
+</script>
+
+</body>
+</html>

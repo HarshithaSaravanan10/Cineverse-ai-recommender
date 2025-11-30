@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ movie.title }} | CineVerse AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<!-- 3D ANIMATED APP TITLE -->
+<h1 class="cine-title">🌌 CINEVERSE AI</h1>
+
+<div class="nav-bar">
+    <div class="nav-left">🎬 Movie Details</div>
+    <div class="nav-right">
+        <a href="/">Home</a>
+        <a href="/logout">Logout</a>
+    </div>
+</div>
+
+<div class="details-card">
+    <img src="{{ movie.poster_path }}" class="poster-big">
+
+    <div>
+        <h1>{{ movie.title }}</h1>
+        <p><b>Genres:</b> {{ movie.genres }}</p>
+        <p><b>Rating:</b> ⭐ {{ movie.imdb_rating }}</p>
+        <p style="margin-top:8px;">{{ movie.overview }}</p>
+    </div>
+</div>
+
+<h2 class="section-title">Your Rating</h2>
+<div class="rating-stars" id="stars"></div>
+<p id="rating-msg"></p>
+
+<button class="btn-secondary" id="watch-btn">Add to Watchlist</button>
+
+<h2 class="section-title">Similar Movies</h2>
+<div id="similar-box" class="similar-container"></div>
+
+<script>
+// Corrected movie_id assignment
+const movie_id = Number("{{ movie.id }}");
+
+// STAR RATING
+const starBox = document.getElementById("stars");
+for (let i = 1; i <= 5; i++) {
+    starBox.innerHTML += `<span onclick="rate(${i})">★</span>`;
+}
+
+async function rate(val) {
+    await fetch("/rate", {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({ movie_id, rating: val })
+    });
+    document.getElementById("rating-msg").innerText = "Saved! ⭐";
+}
+
+// WATCHLIST
+async function updateWatchStatus() {
+    const res = await fetch(`/watchlist/status/${movie_id}`);
+    const data = await res.json();
+    const btn = document.getElementById("watch-btn");
+
+    btn.classList.toggle("in-watchlist", data.in_watchlist);
+    btn.innerText = data.in_watchlist ? "Remove from Watchlist" : "Add to Watchlist";
+}
+
+document.getElementById("watch-btn").onclick = async () => {
+    await fetch("/watchlist/toggle", {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({ movie_id })
+    });
+    updateWatchStatus();
+};
+
+updateWatchStatus();
+
+// SIMILAR MOVIES
+async function loadSimilar() {
+    const res = await fetch(`/recommend/${movie_id}`);
+    const list = await res.json();
+    const box = document.getElementById("similar-box");
+
+    list.forEach(m => {
+        box.innerHTML += `
+            <div class="rec-card" onclick="location.href='/movie/${m.id}'">
+                <img src="${m.poster_path}" class="poster-small">
+                <p class="movie-name">${m.title}</p>
+            </div>`;
+    });
+}
+loadSimilar();
+</script>
+
+</body>
+</html>

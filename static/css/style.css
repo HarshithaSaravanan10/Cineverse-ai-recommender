@@ -1,0 +1,441 @@
+/* ========== GLOBAL ========== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: radial-gradient(circle at top, #111827 0, #020617 45%, #000 100%);
+    font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    color: #e5e7eb;
+}
+
+/* Simple scrollbars */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #020617;
+}
+::-webkit-scrollbar-thumb {
+    background: #1f2937;
+    border-radius: 10px;
+}
+
+/* ========== NAVBAR ========== */
+
+.nav-bar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 40px;
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.nav-left {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #22d3ee;
+    text-shadow: 0 0 15px rgba(56, 189, 248, 0.8);
+}
+
+.nav-right a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: #cbd5f5;
+    font-size: 14px;
+    position: relative;
+    transition: color 0.2s ease;
+}
+
+.nav-right a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #22c55e, #06b6d4);
+    transition: width 0.2s ease;
+}
+
+.nav-right a:hover {
+    color: #f9fafb;
+}
+
+.nav-right a:hover::after {
+    width: 100%;
+}
+
+/* ========== TITLES & HEADINGS ========== */
+
+.title {
+    text-align: left;
+    margin: 30px 40px 10px;
+    font-size: 32px;
+    font-weight: 600;
+    color: #f9fafb;
+    text-shadow: 0 0 20px rgba(56, 189, 248, 0.6);
+}
+
+.section-title {
+    margin: 25px 40px 10px;
+    font-size: 22px;
+    color: #e5e7eb;
+}
+
+/* ========== AUTH PAGES ========== */
+
+.auth-body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle at top, #1f2937 0, #020617 55%);
+    color: #e5e7eb;
+}
+
+.auth-card {
+    width: 380px;
+    padding: 28px 26px 32px;
+    border-radius: 22px;
+    background: rgba(15, 23, 42, 0.98);
+    box-shadow: 0 22px 60px rgba(15, 118, 110, 0.5);
+    backdrop-filter: blur(20px);
+    transform: perspective(900px) rotateX(8deg);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.auth-card:hover {
+    transform: perspective(900px) rotateX(0deg) translateY(-4px);
+    box-shadow: 0 28px 75px rgba(8, 145, 178, 0.75);
+}
+
+.auth-card h2 {
+    margin-bottom: 4px;
+}
+
+.subtitle {
+    font-size: 13px;
+    color: #9ca3af;
+    margin-bottom: 18px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 14px;
+}
+
+.input-group label {
+    font-size: 13px;
+    color: #9ca3af;
+}
+
+.input-group input {
+    padding: 9px 11px;
+    border-radius: 12px;
+    border: 1px solid #1f2937;
+    background: rgba(15, 23, 42, 0.9);
+    color: #f9fafb;
+    outline: none;
+    font-size: 14px;
+}
+
+.input-group input:focus {
+    border-color: #22d3ee;
+    box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.4);
+}
+
+.btn-primary {
+    width: 100%;
+    padding: 10px 0;
+    margin-top: 6px;
+    border-radius: 999px;
+    border: none;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #22c55e, #06b6d4);
+    color: #020617;
+    box-shadow: 0 10px 25px rgba(34, 211, 238, 0.4);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.05);
+    box-shadow: 0 16px 35px rgba(34, 211, 238, 0.65);
+}
+
+.auth-footer {
+    margin-top: 16px;
+    font-size: 13px;
+    text-align: center;
+    color: #9ca3af;
+}
+
+.auth-footer a {
+    color: #22d3ee;
+    text-decoration: none;
+}
+
+/* ========== MOVIE GRID ========== */
+
+.movie-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 22px;
+    padding: 10px 40px 35px;
+}
+
+.movie-card {
+    width: 185px;
+    background: radial-gradient(circle at top, rgba(30, 64, 175, 0.4), rgba(15, 23, 42, 0.95));
+    border-radius: 18px;
+    padding: 9px;
+    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.85);
+    cursor: pointer;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+    border: 1px solid rgba(148, 163, 184, 0.25);
+}
+
+.movie-card:hover {
+    transform: translateY(-6px) rotateY(8deg) scale(1.03);
+    background: radial-gradient(circle at top, rgba(56, 189, 248, 0.45), rgba(15, 23, 42, 0.95));
+    box-shadow: 0 26px 55px rgba(8, 47, 73, 0.9);
+}
+
+.poster {
+    width: 100%;
+    border-radius: 14px;
+    display: block;
+}
+
+.movie-name {
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #e5e7eb;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.rating {
+    font-size: 12px;
+    color: #fbbf24;
+    margin-top: 3px;
+}
+
+/* ========== MOVIE DETAILS PAGE ========== */
+
+.details-card {
+    display: flex;
+    gap: 24px;
+    padding: 30px 40px 20px;
+    align-items: flex-start;
+}
+
+.poster-big {
+    width: 260px;
+    border-radius: 20px;
+    box-shadow: 0 25px 70px rgba(15, 23, 42, 0.9);
+    border: 1px solid rgba(148, 163, 184, 0.4);
+}
+
+.details-card h1 {
+    font-size: 28px;
+    margin-bottom: 6px;
+}
+
+.details-card p {
+    font-size: 14px;
+    margin-top: 4px;
+    color: #d1d5db;
+}
+
+/* ========== RATING STARS ========== */
+
+.rating-stars {
+    display: flex;
+    gap: 8px;
+    margin: 10px 40px 4px;
+    font-size: 32px;
+    cursor: pointer;
+}
+
+.rating-stars span {
+    color: #111827;
+    text-shadow: 0 0 8px rgba(15, 23, 42, 0.8);
+    transition: transform 0.2s ease, color 0.2s ease, text-shadow 0.2s ease;
+}
+
+.rating-stars span:hover,
+.rating-stars span:hover ~ span {
+    color: #38bdf8;
+    text-shadow: 0 0 14px rgba(56, 189, 248, 0.8);
+}
+
+.rating-stars span.active {
+    color: #facc15;
+    text-shadow: 0 0 20px rgba(250, 204, 21, 0.9);
+}
+
+#rating-msg {
+    margin: 0 40px 10px;
+    font-size: 13px;
+    color: #22c55e;
+}
+
+/* ========== WATCHLIST BUTTON ========== */
+
+.btn-secondary {
+    margin: 0 40px 10px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(148, 163, 184, 0.5);
+    background: rgba(15, 23, 42, 0.9);
+    color: #e5e7eb;
+    font-size: 13px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+
+.btn-secondary:hover {
+    background: rgba(30, 64, 175, 0.9);
+    border-color: #38bdf8;
+    transform: translateY(-1px);
+}
+
+.btn-secondary.in-watchlist {
+    background: rgba(22, 163, 74, 0.9);
+    border-color: #4ade80;
+}
+
+/* ========== SIMILAR MOVIES STRIP ========== */
+
+.similar-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    padding: 10px 40px 40px;
+}
+
+.rec-card {
+    width: 150px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.poster-small {
+    width: 100%;
+    border-radius: 14px;
+    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.9);
+}
+
+/* ========== PROFILE PAGE ========== */
+
+.no-rec {
+    margin: 5px 40px 20px;
+    font-size: 13px;
+    color: #9ca3af;
+}
+
+/* ========== RESPONSIVE ========== */
+
+@media (max-width: 900px) {
+    .details-card {
+        flex-direction: column;
+        align-items: center;
+        padding: 24px 18px;
+    }
+
+    .poster-big {
+        width: 220px;
+    }
+
+    .movie-container {
+        justify-content: center;
+        padding: 10px 18px 30px;
+    }
+
+    .rating-stars {
+        margin: 10px 18px 4px;
+    }
+
+    .btn-secondary {
+        margin: 0 18px 10px;
+    }
+
+    .title,
+    .section-title {
+        margin-left: 18px;
+    }
+
+    .nav-bar {
+        padding: 10px 18px;
+    }
+
+    .nav-right a {
+        margin-left: 12px;
+        font-size: 13px;
+    }
+}
+
+/* ========== 3D ANIMATED APP TITLE ========== */
+
+.cine-title {
+    font-size: 52px;
+    font-weight: 900;
+    text-align: center;
+    margin: 25px auto 10px auto;
+    letter-spacing: 4px;
+    color: #22d3ee;
+
+    text-shadow:
+        0 0 10px rgba(34,211,238,0.8),
+        0 0 20px rgba(34,211,238,0.8),
+        0 0 40px rgba(14,165,233,0.9),
+        0 0 60px rgba(56,189,248,1),
+        0 0 80px rgba(56,189,248,1);
+
+    transform: perspective(900px) rotateX(18deg);
+    animation: floatTitle 3s ease-in-out infinite,
+               glowPulse 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes floatTitle {
+    0%   { transform: perspective(900px) rotateX(18deg) translateY(0); }
+    50%  { transform: perspective(900px) rotateX(10deg) translateY(-12px); }
+    100% { transform: perspective(900px) rotateX(18deg) translateY(0); }
+}
+
+@keyframes glowPulse {
+    0% {
+        text-shadow:
+        0 0 10px #22d3ee,
+        0 0 30px #22d3ee,
+        0 0 50px #0ea5e9;
+    }
+    100% {
+        text-shadow:
+        0 0 16px #38bdf8,
+        0 0 45px #38bdf8,
+        0 0 80px #0ea5e9;
+    }
+}
